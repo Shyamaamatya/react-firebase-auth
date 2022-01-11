@@ -4,7 +4,10 @@ import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     signOut,
-    onAuthStateChanged //provides authentication to current user (to get notified if a particular user was created of logged in )
+    onAuthStateChanged, //provides authentication to current user (to get notified if a particular user was created of logged in )
+    GoogleAuthProvider,
+    signInWithPopup,
+    sendPasswordResetEmail,
 } from "firebase/auth";
 
 import {auth} from "../firebase"
@@ -22,8 +25,18 @@ export const UserAuthContextProvider = ({ children }) => {
         return signInWithEmailAndPassword(auth, email, password);
     }
 
-    function logOut() {
+    const logOut = () => {
         return signOut(auth);
+    }
+
+     const googleSigIn = () => {
+        const googleAuthProvider = new GoogleAuthProvider(); //new instance of GoogleAuthProvider
+        return signInWithPopup(auth,googleAuthProvider) //(auth instance, Provider)
+    }
+
+    const resetPassword = (email) => {
+        return sendPasswordResetEmail(auth, email);
+        // return auth.sendPasswordResetEmail( email) //alternative
     }
 
     useEffect(() => {
@@ -42,7 +55,7 @@ export const UserAuthContextProvider = ({ children }) => {
         }
     }, []); //to run only once whenever the component gets mount
     //whenever the component gets mount, either the auth status or the current user will be null or we'll have some user
-    return <userAuthContext.Provider value = {{user, signUp, logIn, logOut}}>{children}</userAuthContext.Provider> //In case the uthentication is successful, the createUser is set to the setUser to access the user in ProtectedRoute
+    return <userAuthContext.Provider value = {{user, signUp, logIn, logOut, googleSigIn, resetPassword}}>{children}</userAuthContext.Provider> //In case the uthentication is successful, the createUser is set to the setUser to access the user in ProtectedRoute
 }
 
 export const useUserAuth = () => {

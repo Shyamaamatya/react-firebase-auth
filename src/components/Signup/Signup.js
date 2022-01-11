@@ -40,6 +40,8 @@ import "./style.css"
 
         <div>
             <div className='p-4 box'>
+            <Card>
+                <Card.Body>
                 <h2 className="mb-3">Firebase Auth Login</h2>
                 {error && <Alert variant="danger">{error}</Alert>}
                 {/* <Form onSubmit={handleSubmit}> */}
@@ -66,11 +68,15 @@ import "./style.css"
                         </Button>
                     </div>
                 </Form>
+                </Card.Body>
+      </Card>
             </div>
 
             <div className="p-4 box mt-3 text-center">
         Already have an account? <Link to="/">Log In</Link>
       </div>
+     
+      
             {/* <Card>
                 <Card.Body>
                     <h2 className="text-center nb-4">Sign Up</h2>

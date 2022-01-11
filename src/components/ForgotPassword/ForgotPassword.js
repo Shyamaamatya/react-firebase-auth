@@ -3,49 +3,40 @@ import { Alert, Button, Form } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
 import GoogleButton from "react-google-button"
 import { useUserAuth } from '../../context/UserAuthContext';
-import "./style.css"
 
 
- const Login = () => {
+
+ const ForgotPassword = () => {
     //  const [email, setEmail] = useState(""); //state of email and password
     //  const [password, setPassword] = useState("");
      const [email, setEmail] = useState('');
-     const [password, setPassword] = useState('');
+    //  const [password, setPassword] = useState('');
      const [error, setError] = useState('');
+     const [message, setMessage] = useState('');
      const navigate = useNavigate();
-     const {logIn, googleSigIn} = useUserAuth();
+     const {resetPassword} = useUserAuth();
 
     
 
      const handleSubmit = async (e) => {
         e.preventDefault();
         setError("")
+        setMessage("")
         try {
-            await logIn(email, password);
-            navigate("/home")
+            await resetPassword(email);
+            setMessage("Check your inbox for further instructions.")
+            // navigate("/home")
         } catch (err){
-            setError(err.message)
+            setError("Failed to reset password.")
         }
-    }
-
-
-    const handleGoogleSignIn = async (e) => {
-        e.preventDefault();
-
-        try {
-            await googleSigIn();
-            navigate("/home")
-        }catch (err) {
-            setError(err.message);
-        }
-
     }
 
     return (
         <div>
             <div className='p-4 box'>
-                <h2 className="mb-3">Firebase Auth Login</h2>
+                <h2 className="mb-3">Reset Password</h2>
                 {error && <Alert variant="danger">{error}</Alert>}
+                {message && <Alert variant="success">{message}</Alert>}
                 <Form onSubmit={handleSubmit}>
                 {/* <Form> */}
                     <Form.Group className="mb-3" controlId='formBasicEmail'>
@@ -54,38 +45,19 @@ import "./style.css"
                         />
                     </Form.Group>
 
-                    <Form.Group className="mb-3" controlId='formBasicEmail'>
-                        <Form.Control type="password" placeholder="Password"
-                        onChange={(e) => setPassword(e.target.value)}
-                        />
-                    </Form.Group> 
-
                     <div className='d-grid gap-2'>
-                        <Button variant='primary' type="Submit">
-                            Log In
+                        <Button variant='primary' type="Reset" onClick={handleSubmit}>
+                        Reset Password
                         </Button>
                     </div>
 
-                    {/* <div className='d-grid gap-2'>
-                        <GoogleButton variant='primary' type="Submit">
-                            Log In
-                        </GoogleButton>
-                    </div> */}
-
-
-                </Form>
+                   </Form>
             </div>
 
-            <div className='google-btn'>
-          <GoogleButton
-            className="g-btn"
-            type="dark"
-            onClick={handleGoogleSignIn}
-          />
-        </div>
+           
 
         <div className="p-4 box mt-3 text-center">
-         <Link to="/forgotPassword">Forgot Password?</Link>
+         <Link to="/">Login</Link>
       </div>
 
             <div className="p-4 box mt-3 text-center">
@@ -96,4 +68,4 @@ import "./style.css"
     )
 }
 
-export default Login
+export default ForgotPassword;

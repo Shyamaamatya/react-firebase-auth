@@ -1,0 +1,12 @@
+
+/* // Button {
+//     background-color: rgba(49, 49, 197, 0.5);
+// } */
+
+.google-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+}
+
